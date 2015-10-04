@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		7CB819FF1BC0B54800A02238 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB819FE1BC0B54800A02238 /* AppDelegate.swift */; };
-		7CB81A011BC0B54800A02238 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A001BC0B54800A02238 /* ViewController.swift */; };
+		7CB81A011BC0B54800A02238 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A001BC0B54800A02238 /* LoginViewController.swift */; };
 		7CB81A041BC0B54800A02238 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CB81A021BC0B54800A02238 /* Main.storyboard */; };
 		7CB81A061BC0B54800A02238 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CB81A051BC0B54800A02238 /* Assets.xcassets */; };
 		7CB81A091BC0B54800A02238 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CB81A071BC0B54800A02238 /* LaunchScreen.storyboard */; };
 		7CB81A141BC0B54800A02238 /* OntheMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A131BC0B54800A02238 /* OntheMapTests.swift */; };
 		7CB81A1F1BC0B54800A02238 /* OntheMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A1E1BC0B54800A02238 /* OntheMapUITests.swift */; };
+		7CB81A341BC1B1B900A02238 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A331BC1B1B900A02238 /* StudentInformation.swift */; settings = {ASSET_TAGS = (); }; };
+		7CB81A361BC1B65D00A02238 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A351BC1B65D00A02238 /* LocationViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		7CB81A381BC1B67D00A02238 /* PostInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A371BC1B67D00A02238 /* PostInfoViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +39,7 @@
 /* Begin PBXFileReference section */
 		7CB819FB1BC0B54800A02238 /* OntheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OntheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CB819FE1BC0B54800A02238 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7CB81A001BC0B54800A02238 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7CB81A001BC0B54800A02238 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7CB81A031BC0B54800A02238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7CB81A051BC0B54800A02238 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CB81A081BC0B54800A02238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +50,9 @@
 		7CB81A1A1BC0B54800A02238 /* OntheMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OntheMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CB81A1E1BC0B54800A02238 /* OntheMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OntheMapUITests.swift; sourceTree = "<group>"; };
 		7CB81A201BC0B54800A02238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CB81A331BC1B1B900A02238 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
+		7CB81A351BC1B65D00A02238 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
+		7CB81A371BC1B67D00A02238 /* PostInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostInfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,10 +104,12 @@
 			isa = PBXGroup;
 			children = (
 				7CB819FE1BC0B54800A02238 /* AppDelegate.swift */,
-				7CB81A001BC0B54800A02238 /* ViewController.swift */,
+				7CB81A321BC113E400A02238 /* Models */,
+				7CB81A311BC113D700A02238 /* Controllers */,
+				7CB81A2C1BC0B6F700A02238 /* Clients */,
 				7CB81A021BC0B54800A02238 /* Main.storyboard */,
-				7CB81A051BC0B54800A02238 /* Assets.xcassets */,
 				7CB81A071BC0B54800A02238 /* LaunchScreen.storyboard */,
+				7CB81A051BC0B54800A02238 /* Assets.xcassets */,
 				7CB81A0A1BC0B54800A02238 /* Info.plist */,
 			);
 			path = OntheMap;
@@ -123,6 +131,47 @@
 				7CB81A201BC0B54800A02238 /* Info.plist */,
 			);
 			path = OntheMapUITests;
+			sourceTree = "<group>";
+		};
+		7CB81A2C1BC0B6F700A02238 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				7CB81A2E1BC0B70800A02238 /* Parse */,
+				7CB81A2D1BC0B70000A02238 /* Udacity */,
+			);
+			name = Clients;
+			sourceTree = "<group>";
+		};
+		7CB81A2D1BC0B70000A02238 /* Udacity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Udacity;
+			sourceTree = "<group>";
+		};
+		7CB81A2E1BC0B70800A02238 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Parse;
+			sourceTree = "<group>";
+		};
+		7CB81A311BC113D700A02238 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7CB81A001BC0B54800A02238 /* LoginViewController.swift */,
+				7CB81A351BC1B65D00A02238 /* LocationViewController.swift */,
+				7CB81A371BC1B67D00A02238 /* PostInfoViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		7CB81A321BC113E400A02238 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7CB81A331BC1B1B900A02238 /* StudentInformation.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,8 +304,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CB81A011BC0B54800A02238 /* ViewController.swift in Sources */,
+				7CB81A341BC1B1B900A02238 /* StudentInformation.swift in Sources */,
+				7CB81A011BC0B54800A02238 /* LoginViewController.swift in Sources */,
 				7CB819FF1BC0B54800A02238 /* AppDelegate.swift in Sources */,
+				7CB81A381BC1B67D00A02238 /* PostInfoViewController.swift in Sources */,
+				7CB81A361BC1B65D00A02238 /* LocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
