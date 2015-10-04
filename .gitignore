@@ -44,3 +44,6 @@ Carthage/Build
 
 # DS_STORE
 .DS_Store
+
+# Plists
+*.plist
