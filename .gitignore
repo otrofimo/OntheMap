@@ -47,4 +47,4 @@ Carthage/Build
 
 # Plists
 *.plist
-OntheMap/Info.plist
+*Info.plist
