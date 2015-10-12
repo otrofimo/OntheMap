@@ -16,7 +16,6 @@ extension ParseClient {
         // MARK: API Keys
         static let ApiClientId : String = ParseClient.sharedInstance.valueForAPIKey("PARSE_API_CLIENT_ID")
         static let RestApiKey : String = ParseClient.sharedInstance.valueForAPIKey("PARSE_REST_API_KEY")
-
     }
 
     struct HTTPBodyKeys {
@@ -50,12 +49,19 @@ extension ParseClient {
         static let longitude : String = "longitude"
     }
 
-    private func valueForAPIKey(keyname:String) -> String {
-        let filePath = NSBundle.mainBundle().pathForResource("ApiKeys", ofType:"plist")
-        let plist = NSDictionary(contentsOfFile:filePath!)
+    struct JSONResponseKeys {
+        static let StudentLocationResult = "results"
 
-        let value:String = plist?.objectForKey(keyname) as! String
-        return value
+        static let StudentLocationCreatedAt = "createdAt"
+        static let StudentLocationFirstName = "firstName"
+        static let StudentLocationLastName = "lastName"
+        static let StudentLocationLatitude = "latitude"
+        static let StudentLocationLongitude = "longitude"
+        static let StudentLocationMapString = "mapString"
+        static let StudentLocationMediaURL = "mediaURL"
+        static let StudentLocationObjectID = "objectId"
+        static let StudentLocationUniqueKey = "uniqueKey"
+        static let StudentLocationUpdatedAt = "updatedAt"
     }
 
 }

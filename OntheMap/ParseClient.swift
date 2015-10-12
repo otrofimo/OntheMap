@@ -28,6 +28,8 @@ class ParseClient : NSObject {
     }
 
 
+    // TODO : think of a way to refactor the get and post methods. They have a lot of code repetition. Also very similar to UdacityClient
+
     // MARK: GET
     func taskForGETMethod(method:String, parameters: [String:AnyObject], completionHandler: (result: AnyObject!, error:NSError?) -> Void) -> NSURLSessionDataTask {
 
@@ -36,7 +38,6 @@ class ParseClient : NSObject {
         request.addValue(ParseClient.Constants.ApiClientId, forHTTPHeaderField: ParseClient.HTTPBodyKeys.ApiClientId)
         request.addValue(ParseClient.Constants.RestApiKey, forHTTPHeaderField: ParseClient.HTTPBodyKeys.RestApiKey)
 
-        /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
 
             /* GUARD: Was there an error? */
@@ -63,11 +64,9 @@ class ParseClient : NSObject {
                 return
             }
 
-            /* 5/6. Parse the data and use the data (happens in completion handler) */
             ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
         }
 
-        /* 7. Start the request */
         task.resume()
 
         return task
@@ -87,7 +86,6 @@ class ParseClient : NSObject {
             request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: .PrettyPrinted)
         }
 
-        /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
 
             /* GUARD: Was there an error? */
@@ -114,11 +112,9 @@ class ParseClient : NSObject {
                 return
             }
 
-            /* 5/6. Parse the data and use the data (happens in completion handler) */
             ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
         }
 
-        /* 7. Start the request */
         task.resume()
 
         return task
@@ -159,6 +155,14 @@ class ParseClient : NSObject {
         }
 
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
+    }
+
+    func valueForAPIKey(keyname:String) -> String {
+        let filePath = NSBundle.mainBundle().pathForResource("ApiKeys", ofType:"plist")
+        let plist = NSDictionary(contentsOfFile:filePath!)
+
+        let value:String = plist?.objectForKey(keyname) as! String
+        return value
     }
 
 }

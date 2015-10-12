@@ -113,6 +113,10 @@
                                         <include reference="mX4-z6-9Dg"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <action selector="login:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1d6-11-IOd"/>
+                                    <segue destination="w1I-Rw-Jpd" kind="show" id="Yxo-WT-JCb"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q2F-kK-LKA">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
@@ -253,6 +257,10 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="passwordField" destination="es8-mb-8ga" id="nSb-De-8Hu"/>
+                        <outlet property="usernameField" destination="sHo-op-I2D" id="Cwr-jN-SKn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
