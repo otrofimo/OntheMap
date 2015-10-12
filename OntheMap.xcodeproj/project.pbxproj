@@ -28,6 +28,7 @@
 		7CB81A621BCB900700A02238 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB81A5F1BCB900700A02238 /* FBSDKCoreKit.framework */; settings = {ASSET_TAGS = (); }; };
 		7CB81A631BCB900800A02238 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB81A601BCB900700A02238 /* FBSDKLoginKit.framework */; settings = {ASSET_TAGS = (); }; };
 		7CB81A641BCB900800A02238 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB81A611BCB900700A02238 /* FBSDKShareKit.framework */; settings = {ASSET_TAGS = (); }; };
+		7CB81A661BCB942500A02238 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7CB81A651BCB942500A02238 /* Info.plist */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +55,6 @@
 		7CB81A031BC0B54800A02238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7CB81A051BC0B54800A02238 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CB81A081BC0B54800A02238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		7CB81A0A1BC0B54800A02238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CB81A0F1BC0B54800A02238 /* OntheMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OntheMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CB81A131BC0B54800A02238 /* OntheMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OntheMapTests.swift; sourceTree = "<group>"; };
 		7CB81A151BC0B54800A02238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -76,6 +76,7 @@
 		7CB81A5F1BCB900700A02238 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		7CB81A601BCB900700A02238 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		7CB81A611BCB900700A02238 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		7CB81A651BCB942500A02238 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,9 +138,9 @@
 				7CB81A021BC0B54800A02238 /* Main.storyboard */,
 				7CB81A071BC0B54800A02238 /* LaunchScreen.storyboard */,
 				7CB81A051BC0B54800A02238 /* Assets.xcassets */,
-				7CB81A0A1BC0B54800A02238 /* Info.plist */,
 				7CB81A391BC1E2D100A02238 /* ApiKeys.plist */,
 				7CB81A521BCB887A00A02238 /* Bridge-Header.h */,
+				7CB81A651BCB942500A02238 /* Info.plist */,
 			);
 			path = OntheMap;
 			sourceTree = "<group>";
@@ -326,6 +327,7 @@
 				7CB81A091BC0B54800A02238 /* LaunchScreen.storyboard in Resources */,
 				7CB81A3A1BC1E2D100A02238 /* ApiKeys.plist in Resources */,
 				7CB81A061BC0B54800A02238 /* Assets.xcassets in Resources */,
+				7CB81A661BCB942500A02238 /* Info.plist in Resources */,
 				7CB81A041BC0B54800A02238 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
