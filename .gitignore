@@ -47,3 +47,4 @@ Carthage/Build
 
 # Plists
 *.plist
+OntheMap/*.plist
