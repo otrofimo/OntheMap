@@ -56,9 +56,9 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             }
         } else {
             // pop-up notification that username / password is missing
-            var message = "Missing: "
+            var message = "Missing:\n "
 
-            if usernameField.text == "" {message += "Username, "}
+            if usernameField.text == "" {message += "Username\n"}
             if passwordField.text == "" {message += "Password"}
 
             let alertVC = UIAlertController(title: "Login Credentials", message: message, preferredStyle: UIAlertControllerStyle.Alert)
