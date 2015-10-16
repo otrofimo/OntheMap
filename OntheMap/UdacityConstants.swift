@@ -13,6 +13,8 @@ extension UdacityClient {
         // MARK: URL String
         static let BaseURLString = "https://www.udacity.com/api/"
 
+        static let SignUpURLString = "https://www.udacity.com/account/auth#!/signup"
+
         // MARK: API Keys
         static let FacebookAppID : String = ParseClient.sharedInstance.valueForAPIKey("FACEBOOK_APP_ID")
     }
@@ -34,7 +36,17 @@ extension UdacityClient {
     }
 
     struct JSONResponseKeys {
-        static let Registered = "registered"
+        // First level
+        static let Account      = "account"
+        static let Session      = "session"
+        static let UpdatedAt    = "updatedAt"
+        
+        // Second level
+        static let Registered   = "registered"
+        static let ID           = "id"
+        static let Expiration   = "expiration"
+        static let Key          = "key"
+
     }
 
 }

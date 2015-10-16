@@ -7,14 +7,26 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var facebookLogin: FBSDKLoginButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        if let _ = FBSDKAccessToken.currentAccessToken() {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.presentMapViewController()
+            })
+        }
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        // Because facebook deletes the login button and removes the delegate. Everytime this page appears need to reset the delegate. Its kinda dirty and maybe its better to do this manually instead of relying on this out of the box stuff
+        self.facebookLogin.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,26 +35,98 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func login(sender: AnyObject) {
+        let loginVC = self
         if usernameField.text != "" && passwordField.text != "" {
             UdacityClient.sharedInstance.loginWith(usernameField.text!, password: passwordField.text!) { (success, errorString) in
 
                 if errorString != "" {
                     let alertVC = UIAlertController(title: "Error", message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
+                    let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                    alertVC.addAction(cancelAction)
                     self.presentViewController(alertVC, animated: true, completion: nil)
                     return
                 } else {
                     if success {
                         // create navigationController and attach MapTableViewController with result attached as map pins
-
-                        let navController = self.storyboard?.instantiateViewControllerWithIdentifier("NavController")
-                        self.presentViewController(navController!, animated: true, completion: nil)
+                        dispatch_async(dispatch_get_main_queue(), {
+                            loginVC.presentMapViewController()
+                        })
                     }
                 }
             }
         } else {
-            // popup notification that username / password is missing
+            // pop-up notification that username / password is missing
+            var message = "Missing: "
+
+            if usernameField.text == "" {message += "Username, "}
+            if passwordField.text == "" {message += "Password"}
+
+            let alertVC = UIAlertController(title: "Login Credentials", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+            alertVC.addAction(cancelAction)
+            self.presentViewController(alertVC, animated: true, completion: nil)
+            return
         }
     }
 
+    @IBAction func sendToUdacitySignUp(sender: UIButton) {
+        let signUpNavController = self.storyboard?.instantiateViewControllerWithIdentifier("SignUpNavigationController") as! UINavigationController
+
+        self.presentViewController(signUpNavController, animated: true, completion: nil)
+    }
+
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+
+        let loginVC = self
+
+        if let error = error {
+            print("\(error)")
+        } else if result.isCancelled {
+            print("request cancelled")
+        } else {
+            if let accessToken = result.token {
+                let fbBody = [UdacityClient.Parameters.FacebookMobile: [UdacityClient.Parameters.FacebookAccessToken: accessToken.tokenString]]
+                UdacityClient.sharedInstance.loginWith(fbBody) { (success, errorString) in
+                    if errorString != "" {
+                        let alertVC = UIAlertController(title: "Error", message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
+                        let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                        alertVC.addAction(cancelAction)
+                        self.presentViewController(alertVC, animated: true, completion: nil)
+                        return
+                    } else {
+                        if success {
+                            dispatch_async(dispatch_get_main_queue(), {
+                                loginVC.presentMapViewController()
+                            })
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        print("user logged out")
+    }
+
+    func logout(sender: UIBarButtonItem) {
+        let loginManager = FBSDKLoginManager()
+        loginManager.logOut()
+
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func presentMapViewController() {
+        let logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout:")
+
+        let mapTabViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MapTabViewController") as! MapTabViewController
+        mapTabViewController.navigationItem.leftBarButtonItem = logoutButton
+
+        let managerNavigationController = self.storyboard?.instantiateViewControllerWithIdentifier("ManagerNavigationController") as!
+        UINavigationController
+        managerNavigationController.setViewControllers([mapTabViewController], animated: true)
+
+        self.presentViewController(managerNavigationController, animated: true, completion: nil)
+    }
 }
 

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7CB819FF1BC0B54800A02238 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB819FE1BC0B54800A02238 /* AppDelegate.swift */; };
 		7CB81A011BC0B54800A02238 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A001BC0B54800A02238 /* LoginViewController.swift */; };
-		7CB81A041BC0B54800A02238 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CB81A021BC0B54800A02238 /* Main.storyboard */; };
 		7CB81A061BC0B54800A02238 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CB81A051BC0B54800A02238 /* Assets.xcassets */; };
 		7CB81A091BC0B54800A02238 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CB81A071BC0B54800A02238 /* LaunchScreen.storyboard */; };
 		7CB81A141BC0B54800A02238 /* OntheMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A131BC0B54800A02238 /* OntheMapTests.swift */; };
@@ -24,11 +23,13 @@
 		7CB81A441BC35C6700A02238 /* ParseConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A431BC35C6600A02238 /* ParseConvenience.swift */; settings = {ASSET_TAGS = (); }; };
 		7CB81A461BC35C7800A02238 /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A451BC35C7800A02238 /* UdacityConvenience.swift */; settings = {ASSET_TAGS = (); }; };
 		7CB81A4B1BCB37A600A02238 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A4A1BCB37A600A02238 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		7CB81A4D1BCB383A00A02238 /* MapTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A4C1BCB383A00A02238 /* MapTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		7CB81A4D1BCB383A00A02238 /* MapListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A4C1BCB383A00A02238 /* MapListViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		7CB81A621BCB900700A02238 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB81A5F1BCB900700A02238 /* FBSDKCoreKit.framework */; settings = {ASSET_TAGS = (); }; };
 		7CB81A631BCB900800A02238 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB81A601BCB900700A02238 /* FBSDKLoginKit.framework */; settings = {ASSET_TAGS = (); }; };
 		7CB81A641BCB900800A02238 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB81A611BCB900700A02238 /* FBSDKShareKit.framework */; settings = {ASSET_TAGS = (); }; };
-		7CB81A661BCB942500A02238 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7CB81A651BCB942500A02238 /* Info.plist */; settings = {ASSET_TAGS = (); }; };
+		7CB81A681BCC7DC500A02238 /* MapTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A671BCC7DC500A02238 /* MapTabViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		7CB81A6A1BCEEEDC00A02238 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB81A691BCEEEDC00A02238 /* SignUpViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		7CF58F831BD198F700F39219 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CF58F811BD198F700F39219 /* Main.storyboard */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +53,6 @@
 		7CB819FB1BC0B54800A02238 /* OntheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OntheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CB819FE1BC0B54800A02238 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7CB81A001BC0B54800A02238 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		7CB81A031BC0B54800A02238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7CB81A051BC0B54800A02238 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CB81A081BC0B54800A02238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7CB81A0F1BC0B54800A02238 /* OntheMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OntheMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,12 +71,15 @@
 		7CB81A431BC35C6600A02238 /* ParseConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConvenience.swift; sourceTree = "<group>"; };
 		7CB81A451BC35C7800A02238 /* UdacityConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConvenience.swift; sourceTree = "<group>"; };
 		7CB81A4A1BCB37A600A02238 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		7CB81A4C1BCB383A00A02238 /* MapTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTableViewController.swift; sourceTree = "<group>"; };
+		7CB81A4C1BCB383A00A02238 /* MapListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapListViewController.swift; sourceTree = "<group>"; };
 		7CB81A521BCB887A00A02238 /* Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
 		7CB81A5F1BCB900700A02238 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		7CB81A601BCB900700A02238 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		7CB81A611BCB900700A02238 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		7CB81A651BCB942500A02238 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CB81A671BCC7DC500A02238 /* MapTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTabViewController.swift; sourceTree = "<group>"; };
+		7CB81A691BCEEEDC00A02238 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		7CF58F821BD198F700F39219 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,8 +113,8 @@
 		7CB819F21BC0B54800A02238 = {
 			isa = PBXGroup;
 			children = (
-				7CB81A5E1BCB8E8F00A02238 /* Frameworks */,
 				7CB819FD1BC0B54800A02238 /* OntheMap */,
+				7CB81A5E1BCB8E8F00A02238 /* Frameworks */,
 				7CB81A121BC0B54800A02238 /* OntheMapTests */,
 				7CB81A1D1BC0B54800A02238 /* OntheMapUITests */,
 				7CB819FC1BC0B54800A02238 /* Products */,
@@ -135,8 +138,8 @@
 				7CB81A321BC113E400A02238 /* Models */,
 				7CB81A311BC113D700A02238 /* Controllers */,
 				7CB81A2C1BC0B6F700A02238 /* Clients */,
-				7CB81A021BC0B54800A02238 /* Main.storyboard */,
 				7CB81A071BC0B54800A02238 /* LaunchScreen.storyboard */,
+				7CF58F811BD198F700F39219 /* Main.storyboard */,
 				7CB81A051BC0B54800A02238 /* Assets.xcassets */,
 				7CB81A391BC1E2D100A02238 /* ApiKeys.plist */,
 				7CB81A521BCB887A00A02238 /* Bridge-Header.h */,
@@ -198,7 +201,9 @@
 				7CB81A001BC0B54800A02238 /* LoginViewController.swift */,
 				7CB81A371BC1B67D00A02238 /* PostInfoViewController.swift */,
 				7CB81A4A1BCB37A600A02238 /* MapViewController.swift */,
-				7CB81A4C1BCB383A00A02238 /* MapTableViewController.swift */,
+				7CB81A4C1BCB383A00A02238 /* MapListViewController.swift */,
+				7CB81A671BCC7DC500A02238 /* MapTabViewController.swift */,
+				7CB81A691BCEEEDC00A02238 /* SignUpViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -327,8 +332,7 @@
 				7CB81A091BC0B54800A02238 /* LaunchScreen.storyboard in Resources */,
 				7CB81A3A1BC1E2D100A02238 /* ApiKeys.plist in Resources */,
 				7CB81A061BC0B54800A02238 /* Assets.xcassets in Resources */,
-				7CB81A661BCB942500A02238 /* Info.plist in Resources */,
-				7CB81A041BC0B54800A02238 /* Main.storyboard in Resources */,
+				7CF58F831BD198F700F39219 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,9 +363,11 @@
 				7CB81A011BC0B54800A02238 /* LoginViewController.swift in Sources */,
 				7CB819FF1BC0B54800A02238 /* AppDelegate.swift in Sources */,
 				7CB81A461BC35C7800A02238 /* UdacityConvenience.swift in Sources */,
+				7CB81A681BCC7DC500A02238 /* MapTabViewController.swift in Sources */,
 				7CB81A441BC35C6700A02238 /* ParseConvenience.swift in Sources */,
+				7CB81A6A1BCEEEDC00A02238 /* SignUpViewController.swift in Sources */,
 				7CB81A4B1BCB37A600A02238 /* MapViewController.swift in Sources */,
-				7CB81A4D1BCB383A00A02238 /* MapTableViewController.swift in Sources */,
+				7CB81A4D1BCB383A00A02238 /* MapListViewController.swift in Sources */,
 				7CB81A421BC32DCE00A02238 /* UdacityConstants.swift in Sources */,
 				7CB81A381BC1B67D00A02238 /* PostInfoViewController.swift in Sources */,
 				7CB81A3E1BC32CAF00A02238 /* ParseConstants.swift in Sources */,
@@ -400,20 +406,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7CB81A021BC0B54800A02238 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7CB81A031BC0B54800A02238 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		7CB81A071BC0B54800A02238 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				7CB81A081BC0B54800A02238 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		7CF58F811BD198F700F39219 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7CF58F821BD198F700F39219 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -603,6 +609,7 @@
 				7CB81A251BC0B54800A02238 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7CB81A261BC0B54800A02238 /* Build configuration list for PBXNativeTarget "OntheMapTests" */ = {
 			isa = XCConfigurationList;
@@ -611,6 +618,7 @@
 				7CB81A281BC0B54800A02238 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7CB81A291BC0B54800A02238 /* Build configuration list for PBXNativeTarget "OntheMapUITests" */ = {
 			isa = XCConfigurationList;
@@ -619,6 +627,7 @@
 				7CB81A2B1BC0B54800A02238 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

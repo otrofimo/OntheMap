@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MapTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MapListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()

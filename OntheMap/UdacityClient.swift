@@ -111,7 +111,7 @@ class UdacityClient : NSObject {
                 return
             }
 
-            ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+            UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
         }
         
         task.resume()
@@ -148,7 +148,7 @@ class UdacityClient : NSObject {
                 return
             }
 
-            ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+            UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
         }
         task.resume()
 
