@@ -32,7 +32,7 @@ class UdacityClient : NSObject {
     // Maybe create a function and then curry for both clients? create a protocol that both can implement?
 
     func taskForGETMethod(method:String, parameters: [String:AnyObject], completionHandler: (result: AnyObject!, error:NSError?) -> Void) -> NSURLSessionDataTask {
-        let urlString = UdacityClient.Constants.BaseURLString + method + UdacityClient.escapedParameters(parameters)
+        let urlString = UdacityClient.Constants.BaseURLString + UdacityClient.Methods.API + method + UdacityClient.escapedParameters(parameters)
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
 
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
@@ -74,7 +74,7 @@ class UdacityClient : NSObject {
 
     func taskForPOSTMethod(method: String, jsonBody: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
 
-        let urlString = UdacityClient.Constants.BaseURLString + method
+        let urlString = UdacityClient.Constants.BaseURLString + UdacityClient.Methods.API + method
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
 
         request.HTTPMethod = "POST"
@@ -122,7 +122,7 @@ class UdacityClient : NSObject {
     // MARK: DELETE
 
     func taskForDeleteMethod(method: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void)-> NSURLSessionDataTask {
-        let request = NSMutableURLRequest(URL: NSURL(string: UdacityClient.Constants.BaseURLString)!)
+        let request = NSMutableURLRequest(URL: NSURL(string: UdacityClient.Constants.BaseURLString + UdacityClient.Methods.API)!)
         request.HTTPMethod = "DELETE"
 
         var xsrfCookie: NSHTTPCookie? = nil

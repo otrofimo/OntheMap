@@ -10,7 +10,7 @@
         <!--LoginController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="LoginController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="OntheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" title="LoginController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="OntheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -126,8 +126,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="sendToUdacitySignUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VIs-Li-T6x"/>
-                                    <segue destination="lTC-pc-dSq" kind="show" id="qrF-UF-yVt"/>
+                                    <segue destination="lTC-pc-dSq" kind="show" identifier="SignUpForUdacity" id="qrF-UF-yVt"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="egz-Cu-yzG" customClass="FBSDKLoginButton">
@@ -252,7 +251,7 @@
         <!--MapListViewController-->
         <scene sceneID="5ZP-oW-q51">
             <objects>
-                <viewController title="MapListViewController" id="so1-Vx-bcs" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapListViewController" title="MapListViewController" id="so1-Vx-bcs" customClass="MapListViewController" customModule="OntheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QbG-8K-0F0"/>
                         <viewControllerLayoutGuide type="bottom" id="03e-2N-qGd"/>
@@ -260,8 +259,54 @@
                     <view key="view" contentMode="scaleToFill" id="mLD-0b-frz">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="11" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gcW-jU-qUV">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="11" id="zLm-A7-P41">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zLm-A7-P41" id="a0h-pW-D54">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gcW-jU-qUV" firstAttribute="leading" secondItem="mLD-0b-frz" secondAttribute="leadingMargin" constant="-20" id="dUW-b7-uIC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gcW-jU-qUV" secondAttribute="trailing" constant="-20" id="jqO-T6-okG"/>
+                            <constraint firstItem="gcW-jU-qUV" firstAttribute="top" secondItem="QbG-8K-0F0" secondAttribute="bottom" id="mFb-qd-kvD"/>
+                            <constraint firstItem="03e-2N-qGd" firstAttribute="top" secondItem="gcW-jU-qUV" secondAttribute="bottom" id="nCH-Lp-HkQ"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="gcW-jU-qUV"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="dUW-b7-uIC"/>
+                                <exclude reference="jqO-T6-okG"/>
+                                <exclude reference="mFb-qd-kvD"/>
+                                <exclude reference="nCH-Lp-HkQ"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="gcW-jU-qUV"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="dUW-b7-uIC"/>
+                                <include reference="jqO-T6-okG"/>
+                                <include reference="mFb-qd-kvD"/>
+                                <include reference="nCH-Lp-HkQ"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="List" image="list" id="yX7-MG-M9d"/>
                 </viewController>
@@ -272,7 +317,7 @@
         <!--MapViewController-->
         <scene sceneID="JgY-7h-Icw">
             <objects>
-                <viewController title="MapViewController" id="uHa-Go-mRa" sceneMemberID="viewController">
+                <viewController title="MapViewController" id="uHa-Go-mRa" customClass="MapViewController" customModule="OntheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3sP-uE-7xk"/>
                         <viewControllerLayoutGuide type="bottom" id="HB6-80-hTs"/>
@@ -284,25 +329,45 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="d60-2i-2xZ">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <animations/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="551"/>
-                                </variation>
                             </mapView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="d60-2i-2xZ" secondAttribute="trailing" constant="-20" id="8EA-b9-3nq"/>
+                            <constraint firstItem="d60-2i-2xZ" firstAttribute="leading" secondItem="I51-q3-qLH" secondAttribute="leadingMargin" constant="-20" id="lpj-Eb-Ooe"/>
+                            <constraint firstItem="HB6-80-hTs" firstAttribute="top" secondItem="d60-2i-2xZ" secondAttribute="bottom" id="nPY-gu-mVG"/>
+                            <constraint firstItem="d60-2i-2xZ" firstAttribute="top" secondItem="I51-q3-qLH" secondAttribute="topMargin" id="rWO-eK-eBU">
+                                <variation key="widthClass=compact" constant="64"/>
+                            </constraint>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="d60-2i-2xZ"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="8EA-b9-3nq"/>
+                                <exclude reference="lpj-Eb-Ooe"/>
+                                <exclude reference="rWO-eK-eBU"/>
+                                <exclude reference="nPY-gu-mVG"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
                                 <include reference="d60-2i-2xZ"/>
                             </mask>
+                            <mask key="constraints">
+                                <include reference="8EA-b9-3nq"/>
+                                <include reference="lpj-Eb-Ooe"/>
+                                <include reference="rWO-eK-eBU"/>
+                                <include reference="nPY-gu-mVG"/>
+                            </mask>
                         </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="b23-0p-nxF"/>
+                    <connections>
+                        <outlet property="mapView" destination="d60-2i-2xZ" id="QiE-Jy-vx0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v8Q-uR-B12" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -568,7 +633,7 @@
         <!--Navigation Controller-->
         <scene sceneID="lkc-Ei-I2p">
             <objects>
-                <navigationController id="w1I-Rw-Jpd" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ManagerNavigationController" id="w1I-Rw-Jpd" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="cR9-La-rKe">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -621,13 +686,18 @@
         <!--MapTabViewController-->
         <scene sceneID="8PA-kZ-e73">
             <objects>
-                <tabBarController title="MapTabViewController" id="0NW-w2-Ugt" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MapTabViewController" title="MapTabViewController" id="0NW-w2-Ugt" customClass="MapTabViewController" customModule="OntheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="QXE-9Z-kCq">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="ESp-Bh-P05"/>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="refresh" id="th4-Uv-xOy"/>
+                            <barButtonItem systemItem="refresh" id="th4-Uv-xOy">
+                                <connections>
+                                    <action selector="refreshButtonTapped:" destination="0NW-w2-Ugt" id="NjO-9K-Vbp"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem image="pin" id="czY-pv-KRQ">
                                 <connections>
+                                    <action selector="mapPinButtonTapped:" destination="0NW-w2-Ugt" id="XsS-9K-3Pz"/>
                                     <segue destination="qKj-uI-IYt" kind="presentation" id="Uch-hJ-X91"/>
                                 </connections>
                             </barButtonItem>

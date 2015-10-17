@@ -21,21 +21,39 @@ class SignUpViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.addSubview(webView)
+        webView.navigationDelegate = self
 
-        let url = NSURL(string: UdacityClient.Constants.SignUpURLString)
+        // Fun times to get frame of view inside nav controller
+        let navVC = self.navigationController
+        let heightDifference = UIApplication.sharedApplication().statusBarFrame.height + (navVC?.navigationBar.frame.size.height)!
+        let navBarOffsetFrame = CGRectOffset(navVC!.view.frame, CGFloat(0), heightDifference)
+
+        webView.frame = navBarOffsetFrame
+
+        view.addSubview(webView)
+
+        let url = NSURL(string: UdacityClient.Constants.BaseURLString + UdacityClient.Methods.SignUpURLString)
         let request = NSURLRequest(URL: url!)
         webView.loadRequest(request)
-
-        let height = NSLayoutConstraint(item: webView, attribute: .Height, relatedBy: .Equal, toItem: view, attribute: .Height, multiplier: 1, constant: 0)
-        let width = NSLayoutConstraint(item: webView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0)
-
-        view.addConstraints([height,width])
     }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+    func webView(webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+        if let _ = webView.URL?.absoluteString.rangeOfString("\(UdacityClient.Constants.BaseURLString)\(UdacityClient.Methods.SignUpCompleteString)")  {
+            webView.removeFromSuperview()
+            self.dismissViewControllerAnimated(true) {
+                let alertVC = UIAlertController(title: "Congrats", message: "you successfully signed up for Udacity", preferredStyle: UIAlertControllerStyle.Alert)
+                let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                alertVC.addAction(cancelAction)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.presentViewController(alertVC, animated: true, completion: nil)
+                })
+            }
+        }
+    }
 }

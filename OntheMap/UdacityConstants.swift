@@ -11,17 +11,19 @@ import Foundation
 extension UdacityClient {
     struct Constants {
         // MARK: URL String
-        static let BaseURLString = "https://www.udacity.com/api/"
-
-        static let SignUpURLString = "https://www.udacity.com/account/auth#!/signup"
+        static let BaseURLString = "https://www.udacity.com/"
 
         // MARK: API Keys
         static let FacebookAppID : String = ParseClient.sharedInstance.valueForAPIKey("FACEBOOK_APP_ID")
     }
 
     struct Methods {
+        static let API     = "api/"
         static let Session = "session"
         static let Users   = "users/{id}"
+        static let SignUpURLString = "account/auth#!/signup"
+        static let SignUpCompleteString = "me"
+
     }
 
     struct Parameters {

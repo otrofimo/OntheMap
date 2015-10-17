@@ -69,12 +69,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
     }
 
-    @IBAction func sendToUdacitySignUp(sender: UIButton) {
-        let signUpNavController = self.storyboard?.instantiateViewControllerWithIdentifier("SignUpNavigationController") as! UINavigationController
-
-        self.presentViewController(signUpNavController, animated: true, completion: nil)
-    }
-
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
 
         let loginVC = self
@@ -127,6 +121,18 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         managerNavigationController.setViewControllers([mapTabViewController], animated: true)
 
         self.presentViewController(managerNavigationController, animated: true, completion: nil)
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "SignUpForUdacity" {
+            let navVC = segue.destinationViewController as! UINavigationController
+            let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "dismissController:")
+            navVC.viewControllers.first!.navigationItem.leftBarButtonItem = cancelButton
+        }
+    }
+
+    func dismissController(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion:nil)
     }
 }
 
