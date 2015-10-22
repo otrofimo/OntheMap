@@ -50,7 +50,7 @@ extension ParseClient {
     }
 
     struct JSONResponseKeys {
-        static let StudentLocationResult = "results"
+        static let StudentLocationResults = "results"
 
         static let StudentLocationCreatedAt = "createdAt"
         static let StudentLocationFirstName = "firstName"

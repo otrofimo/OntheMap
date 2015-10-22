@@ -11,23 +11,30 @@ import Foundation
 struct StudentLocation {
 
     // MARK: Properties
-    var properties : [String: AnyObject]!
+    var properties : [String: AnyObject]! = [:]
     let dateFormatter = NSDateFormatter()
     let dateFormatFromAPI = "yyyy'-'MM'-'dd'T'HH':'mm':'ss':'SSS'Z'"
 
     init(dictionary: [String:AnyObject]) {
 
-        properties[ParseClient.JSONResponseKeys.StudentLocationFirstName]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationFirstName] as! String
-        properties[ParseClient.JSONResponseKeys.StudentLocationLastName]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationLastName] as! String
-        properties[ParseClient.JSONResponseKeys.StudentLocationLatitude]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationLatitude] as! Float
-        properties[ParseClient.JSONResponseKeys.StudentLocationLongitude]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationLongitude] as! Float
-        properties[ParseClient.JSONResponseKeys.StudentLocationMapString]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationMapString] as! String
-        properties[ParseClient.JSONResponseKeys.StudentLocationMediaURL]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationMediaURL] as! String
+        properties[ParseClient.JSONResponseKeys.StudentLocationFirstName]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationFirstName] as? String
+        properties[ParseClient.JSONResponseKeys.StudentLocationLastName]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationLastName] as? String
+        properties[ParseClient.JSONResponseKeys.StudentLocationLatitude]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationLatitude] as? Float
+        properties[ParseClient.JSONResponseKeys.StudentLocationLongitude]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationLongitude] as? Float
+        properties[ParseClient.JSONResponseKeys.StudentLocationMapString]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationMapString] as? String
+        properties[ParseClient.JSONResponseKeys.StudentLocationMediaURL]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationMediaURL] as? String
         properties[ParseClient.JSONResponseKeys.StudentLocationObjectID]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationObjectID] as? String
         properties[ParseClient.JSONResponseKeys.StudentLocationUniqueKey]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationUniqueKey] as? String
 
-        properties[ParseClient.JSONResponseKeys.StudentLocationCreatedAt] = formatDatefromString(dateFormatFromAPI, string: (dictionary[ParseClient.JSONResponseKeys.StudentLocationCreatedAt] as? String)!)!
-        properties[ParseClient.JSONResponseKeys.StudentLocationUpdatedAt] = formatDatefromString(dateFormatFromAPI, string: (dictionary[ParseClient.JSONResponseKeys.StudentLocationUpdatedAt] as? String)!)!
+
+        let createdAtString = dictionary[ParseClient.JSONResponseKeys.StudentLocationCreatedAt] as? String
+
+
+        properties[ParseClient.JSONResponseKeys.StudentLocationCreatedAt] = formatDatefromString(dateFormatFromAPI, string: createdAtString!)
+
+        let updatedAtString = dictionary[ParseClient.JSONResponseKeys.StudentLocationUpdatedAt] as? String
+
+        properties[ParseClient.JSONResponseKeys.StudentLocationUpdatedAt] = formatDatefromString(dateFormatFromAPI, string: updatedAtString!)
 
     }
 

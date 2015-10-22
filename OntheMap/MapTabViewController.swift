@@ -7,15 +7,15 @@
 //
 
 import UIKit
-import FBSDKLoginKit
-import FBSDKCoreKit
 
 class MapTabViewController: UITabBarController {
+
+    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        getLocations()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,4 +30,20 @@ class MapTabViewController: UITabBarController {
     @IBAction func refreshButtonTapped(sender: UIBarButtonItem) {
     }
 
+    func getLocations() {
+        let parameters = ["limit": "100", "order": "updatedAt"]
+        ParseClient.sharedInstance.getStudentLocations(parameters) { (locations, error) in
+
+            if let error = error {
+                let alertVC = UIAlertController(title: "Error", message: "\(error)", preferredStyle: UIAlertControllerStyle.Alert)
+                let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                alertVC.addAction(cancelAction)
+                self.presentViewController(alertVC, animated: true, completion: nil)
+                return
+            }
+
+            self.appDelegate.locations = locations!
+
+        }
+    }
 }

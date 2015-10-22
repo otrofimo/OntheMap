@@ -44,6 +44,8 @@ class SignUpViewController: UIViewController, WKNavigationDelegate {
     }
 
     func webView(webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+
+        // use guard instead
         if let _ = webView.URL?.absoluteString.rangeOfString("\(UdacityClient.Constants.BaseURLString)\(UdacityClient.Methods.SignUpCompleteString)")  {
             webView.removeFromSuperview()
             self.dismissViewControllerAnimated(true) {

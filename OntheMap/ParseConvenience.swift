@@ -16,7 +16,7 @@ extension ParseClient {
             if let error = error {
                 completionHandler(result: nil, error: error)
             } else {
-                if let results = JSONResult[ParseClient.JSONResponseKeys.StudentLocationResult] as? [[String : AnyObject]] {
+                if let results = JSONResult[ParseClient.JSONResponseKeys.StudentLocationResults] as? [[String : AnyObject]] {
 
                     let locations = StudentLocation.StudentLocationsfromResults(results)
                     completionHandler(result: locations, error: nil)

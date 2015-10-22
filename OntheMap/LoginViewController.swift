@@ -107,6 +107,9 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         let loginManager = FBSDKLoginManager()
         loginManager.logOut()
 
+        // if udacity login -> logout of udacity
+        // if facebook login -> logout of facebook session
+
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
