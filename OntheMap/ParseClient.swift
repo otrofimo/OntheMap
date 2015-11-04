@@ -16,10 +16,6 @@ class ParseClient : NSObject {
     /* Shared session */
     var session: NSURLSession
 
-    /* Authentication state */
-    var sessionID : String? = nil
-    var userID : Int? = nil
-
     // MARK: Initializers
 
     override init() {
@@ -81,6 +77,8 @@ class ParseClient : NSObject {
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         request.addValue(ParseClient.Constants.ApiClientId, forHTTPHeaderField: ParseClient.HTTPBodyKeys.ApiClientId)
         request.addValue(ParseClient.Constants.RestApiKey, forHTTPHeaderField: ParseClient.HTTPBodyKeys.RestApiKey)
+
+        request.HTTPMethod = "POST"
 
         do {
             request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: .PrettyPrinted)

@@ -23,15 +23,15 @@ class MapTabViewController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
 
-
     @IBAction func mapPinButtonTapped(sender: UIBarButtonItem) {
     }
 
     @IBAction func refreshButtonTapped(sender: UIBarButtonItem) {
+        getLocations()
     }
 
     func getLocations() {
-        let parameters = ["limit": "100", "order": "updatedAt"]
+        let parameters = ["limit": "100", "order": "-createdAt"]
         ParseClient.sharedInstance.getStudentLocations(parameters) { (locations, error) in
 
             if let error = error {
@@ -44,6 +44,20 @@ class MapTabViewController: UITabBarController {
 
             self.appDelegate.locations = locations!
 
+            dispatch_async(dispatch_get_main_queue()) {
+                if let mapTableVC = self.viewControllers![1] as? MapListViewController {
+                    if let tableView = mapTableVC.tableView {
+                        tableView.reloadData()
+                    }
+                }
+
+                if let mapVC = self.viewControllers![0] as? MapViewController {
+                    mapVC.annotations = []
+                    mapVC.locations = self.appDelegate.locations!
+                }
+            }
         }
     }
+
+
 }

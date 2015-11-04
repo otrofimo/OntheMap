@@ -15,10 +15,6 @@ class UdacityClient : NSObject {
     /* Shared session */
     var session: NSURLSession
 
-    /* Authentication state */
-    var sessionID : String? = nil
-    var userID : Int? = nil
-
     // MARK: Initializers
 
     override init() {
@@ -60,6 +56,8 @@ class UdacityClient : NSObject {
                 print("No data was returned by the request!")
                 return
             }
+
+
 
             UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
         }
@@ -207,5 +205,13 @@ class UdacityClient : NSObject {
 
     func cleanData(data: NSData) -> NSData {
         return data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
+    }
+
+    class func subtituteKeyInMethod(method: String, key: String, value: String) -> String? {
+        if method.rangeOfString("{\(key)}") != nil {
+            return method.stringByReplacingOccurrencesOfString("{\(key)}", withString: value)
+        } else {
+            return nil
+        }
     }
 }

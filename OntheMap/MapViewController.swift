@@ -17,17 +17,61 @@ class MapViewController: UIViewController, MKMapViewDelegate{
 
     @IBOutlet weak var mapView: MKMapView!
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+//        mapView.delegate = self
+    }
+
     override func viewDidAppear(animated:Bool) {
         super.viewDidAppear(animated)
 
         guard
-            let sourceLocations = self.appDelegate.locations as? [StudentLocation]
+            let sourceLocations = self.appDelegate.locations
         else {
             print("Locations not loaded")
+            return
         }
 
-        print(self.locations.count)
+        self.locations = sourceLocations
 
+        setAnnotationsFromLocations(locations)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let reuseId = "pin"
+
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.pinTintColor = UIColor.redColor()
+
+            pinView!.rightCalloutAccessoryView = UIButton(type: UIButtonType.InfoDark)
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+
+        return pinView
+    }
+
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+
+        if let annotationView = view.annotation {
+            if let mediaURLString = annotationView.subtitle {
+                let url = NSURL(string: mediaURLString!)
+                UIApplication.sharedApplication().openURL(url!)
+            }
+        }
+    }
+
+    func setAnnotationsFromLocations(locations: [StudentLocation]) {
         for location in locations {
             let lat = CLLocationDegrees(location.properties[ParseClient.JSONBodyKeys.latitude] as! Double)
             let long = CLLocationDegrees(location.properties[ParseClient.JSONBodyKeys.longitude] as! Double)
@@ -38,9 +82,9 @@ class MapViewController: UIViewController, MKMapViewDelegate{
                 let first = location.properties[ParseClient.JSONBodyKeys.firstName] as? String,
                 let last = location.properties[ParseClient.JSONBodyKeys.lastName] as? String,
                 let mediaURL = location.properties[ParseClient.JSONBodyKeys.mediaURL] as? String
-            else {
-                print("Missing parameter for location")
-                continue
+                else {
+                    print("Missing parameter for location")
+                    continue
             }
 
             let annotation = MKPointAnnotation()
@@ -50,23 +94,7 @@ class MapViewController: UIViewController, MKMapViewDelegate{
 
             annotations.append(annotation)
         }
-
+        
         self.mapView.addAnnotations(annotations)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        return nil
-    }
-
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-
-        // Open web page for link
-        true
-    }
-
 }

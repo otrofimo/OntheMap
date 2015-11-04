@@ -13,9 +13,9 @@ struct StudentLocation {
     // MARK: Properties
     var properties : [String: AnyObject]! = [:]
     let dateFormatter = NSDateFormatter()
-    let dateFormatFromAPI = "yyyy'-'MM'-'dd'T'HH':'mm':'ss':'SSS'Z'"
+    let dateFormatFromAPI = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'"
 
-    init(dictionary: [String:AnyObject]) {
+    init(dictionary: [String : AnyObject]) {
 
         properties[ParseClient.JSONResponseKeys.StudentLocationFirstName]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationFirstName] as? String
         properties[ParseClient.JSONResponseKeys.StudentLocationLastName]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationLastName] as? String
@@ -27,15 +27,17 @@ struct StudentLocation {
         properties[ParseClient.JSONResponseKeys.StudentLocationUniqueKey]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationUniqueKey] as? String
 
 
-        let createdAtString = dictionary[ParseClient.JSONResponseKeys.StudentLocationCreatedAt] as? String
+        if let createdAtString = dictionary[ParseClient.JSONResponseKeys.StudentLocationCreatedAt] as? String {
+            if let createdDate = formatDatefromString(dateFormatFromAPI, string: createdAtString) {
+                self.properties[ParseClient.JSONResponseKeys.StudentLocationCreatedAt] = createdDate
+            }
+        }
 
-
-        properties[ParseClient.JSONResponseKeys.StudentLocationCreatedAt] = formatDatefromString(dateFormatFromAPI, string: createdAtString!)
-
-        let updatedAtString = dictionary[ParseClient.JSONResponseKeys.StudentLocationUpdatedAt] as? String
-
-        properties[ParseClient.JSONResponseKeys.StudentLocationUpdatedAt] = formatDatefromString(dateFormatFromAPI, string: updatedAtString!)
-
+        if let updatedAtString = dictionary[ParseClient.JSONResponseKeys.StudentLocationUpdatedAt] as? String {
+            if let updatedDate = formatDatefromString(dateFormatFromAPI, string: updatedAtString) {
+                self.properties[ParseClient.JSONResponseKeys.StudentLocationUpdatedAt] = updatedDate
+            }
+        }
     }
 
     static func StudentLocationsfromResults(results:[[String:AnyObject]]) -> [StudentLocation] {
@@ -50,6 +52,10 @@ struct StudentLocation {
 
     func formatDatefromString(format: String, string: String) -> NSDate? {
         self.dateFormatter.dateFormat = format
-        return dateFormatter.dateFromString(string)
+        guard let date = dateFormatter.dateFromString(string) else {
+            print("Error parsing date")
+            return nil
+        }
+        return date
     }
 }

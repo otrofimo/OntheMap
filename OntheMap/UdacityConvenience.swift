@@ -14,28 +14,25 @@ extension UdacityClient {
 
     // Auth 1 -> username/password sent to udacity on success just show next controller
 
-    func loginWith(username:String, password: String, completionHandler: (success: Bool, errorString: String) -> Void) {
+    func loginWith(username:String, password: String, completionHandler: (success: Bool, results: [String : AnyObject], errorString: String) -> Void) {
 
         let authBody = ["udacity" : ["username": username, "password": password]]
 
         taskForPOSTMethod(UdacityClient.Methods.Session, jsonBody: authBody) { (JSONResults, error) in
             if let error = error {
-                completionHandler(success: false, errorString: "\(error)")
+                completionHandler(success: false, results: [:], errorString: "\(error)")
             }
 
-            guard let _ = JSONResults else {
-                completionHandler(success: false, errorString: "\(error)")
+            guard let JSONResults = JSONResults as? [String: AnyObject] else {
+                completionHandler(success: false, results: [:], errorString: "\(error)")
                 return
             }
 
-            if let account = JSONResults[UdacityClient.JSONResponseKeys.Account] as? [String : AnyObject] {
-                if account[UdacityClient.JSONResponseKeys.Registered] as? Bool == true {
-                    completionHandler(success: true, errorString: "")
-                } else {
-                    completionHandler(success: false, errorString: "Udacity was not able to process your request")
-                }
+            if let account = JSONResults[UdacityClient.JSONResponseKeys.Account] as? [String : AnyObject]
+                where account[UdacityClient.JSONResponseKeys.Registered] as? Bool == true {
+                    completionHandler(success: true, results: JSONResults , errorString: "")
             } else {
-                completionHandler(success: false, errorString: "Error parsing login response json")
+                completionHandler(success: false, results: JSONResults, errorString: "Error with Login")
             }
         }
     }
@@ -44,21 +41,22 @@ extension UdacityClient {
     // 1) Ask the user to sign in
     // 2) Get session id and send to udacity
 
-    func loginWith(fbBody: [String:AnyObject], completionHandler: (success: Bool, errorString: String)-> Void) {
+    func loginWith(fbBody: [String:AnyObject], completionHandler: (success: Bool, results: [String : AnyObject], errorString: String)-> Void) {
 
         taskForPOSTMethod(UdacityClient.Methods.Session, jsonBody: fbBody) { (JSONResults, error) in
 
             if let error = error {
-                completionHandler(success: false, errorString: "\(error)")
+                completionHandler(success: false, results: [:], errorString: "\(error)")
             }
 
-            guard let _ = JSONResults else {
-                completionHandler(success: false, errorString: "\(error)")
+            guard let JSONResults = JSONResults as? [String: AnyObject] else {
+                completionHandler(success: false, results: [:], errorString: "\(error)")
                 return
             }
 
-            if let _ = JSONResults[UdacityClient.JSONResponseKeys.Registered]  {
-                completionHandler(success: true, errorString: "")
+            if let account = JSONResults[UdacityClient.JSONResponseKeys.Account] as? [String : AnyObject]
+                where account[UdacityClient.JSONResponseKeys.Registered] as? Bool == true {
+                    completionHandler(success: true, results: JSONResults , errorString: "")
             }
         }
     }
@@ -87,8 +85,22 @@ extension UdacityClient {
         }
     }
 
-    func getUser(userId: Int) {
+    func getUserData(userId: String, completionHandler: (success: Bool, result: [String : AnyObject], errorString: String)-> Void) {
 
+        guard let method = UdacityClient.subtituteKeyInMethod(Methods.Users, key: "id", value: userId) else {
+            print("URL method string is not correctly created")
+            return
+        }
+
+        taskForGETMethod(method, parameters: [:]) { (results, error) -> Void in
+            if let error = error, _ = results {
+                completionHandler(success: false, result: [:], errorString: "\(error)")
+            }
+
+            if let JSONresults = results as? [String : AnyObject] {
+                completionHandler(success: true, result: JSONresults, errorString: "")
+            }
+        }
     }
 
     func deleteSessionWithFacebook() {

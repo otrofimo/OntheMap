@@ -24,8 +24,8 @@ extension ParseClient {
     }
 
     struct Methods {
-        static let StudentLocations = "StudentLocation"
-        static let PostStudentLocation = "StudentLocation/{id}"
+        static let StudentLocation = "StudentLocation"
+        static let UpdateStudentLocation = "StudentLocation/{id}"
     }
 
     struct URLkeys {
