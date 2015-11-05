@@ -11,11 +11,13 @@ import Foundation
 struct StudentLocation {
 
     // MARK: Properties
-    var properties : [String: AnyObject]! = [:]
+    var properties : [String: AnyObject] = [:]
     let dateFormatter = NSDateFormatter()
     let dateFormatFromAPI = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'"
 
     init(dictionary: [String : AnyObject]) {
+
+        // Is a dictionary the best datastore?
 
         properties[ParseClient.JSONResponseKeys.StudentLocationFirstName]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationFirstName] as? String
         properties[ParseClient.JSONResponseKeys.StudentLocationLastName]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationLastName] as? String
@@ -25,7 +27,6 @@ struct StudentLocation {
         properties[ParseClient.JSONResponseKeys.StudentLocationMediaURL]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationMediaURL] as? String
         properties[ParseClient.JSONResponseKeys.StudentLocationObjectID]    = dictionary[ParseClient.JSONResponseKeys.StudentLocationObjectID] as? String
         properties[ParseClient.JSONResponseKeys.StudentLocationUniqueKey]   = dictionary[ParseClient.JSONResponseKeys.StudentLocationUniqueKey] as? String
-
 
         if let createdAtString = dictionary[ParseClient.JSONResponseKeys.StudentLocationCreatedAt] as? String {
             if let createdDate = formatDatefromString(dateFormatFromAPI, string: createdAtString) {
@@ -40,7 +41,7 @@ struct StudentLocation {
         }
     }
 
-    static func StudentLocationsfromResults(results:[[String:AnyObject]]) -> [StudentLocation] {
+    static func studentLocationsfromResults(results:[[String:AnyObject]]) -> [StudentLocation] {
         var studentLocations = [StudentLocation]()
 
         for result in results {

@@ -102,8 +102,4 @@ extension UdacityClient {
             }
         }
     }
-
-    func deleteSessionWithFacebook() {
-        
-    }
 }

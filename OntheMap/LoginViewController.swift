@@ -18,7 +18,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        // If the fb access token exists or you have a udaacity session already load mapViewController
         if let _ = FBSDKAccessToken.currentAccessToken() {
             dispatch_async(dispatch_get_main_queue(), {
                 self.presentMapViewController()
@@ -40,51 +41,10 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     // TODO : For the love of god refactor with guard statements
     @IBAction func login(sender: AnyObject) {
         let loginVC = self
-        if usernameField.text != "" && passwordField.text != "" {
-            UdacityClient.sharedInstance.loginWith(usernameField.text!, password: passwordField.text!) { (success, results, errorString) in
 
-                if errorString != "" {
-                    let alertVC = UIAlertController(title: "Error", message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
-                    let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
-                    alertVC.addAction(cancelAction)
-                    self.presentViewController(alertVC, animated: true, completion: nil)
-                    return
-                } else {
-                    if success {
-                        if let account = results[UdacityClient.JSONResponseKeys.Account] as? [String: AnyObject] {
-
-                            guard let userId = account[UdacityClient.JSONResponseKeys.Key] as? String else {
-                                print("User id is not present in response")
-                                return
-                            }
-
-                            self.appDelegate?.userID = userId
-
-                            UdacityClient.sharedInstance.getUserData(userId) { success, results, errorString in
-                                guard success else {
-                                    print(errorString)
-                                    return
-                                }
-                                guard let user = results[UdacityClient.JSONResponseKeys.User] as? [String : AnyObject] else {
-                                    print("Error: Request did not return user information")
-                                    return
-                                }
-
-                                print("User is \(user)")
-
-                                self.appDelegate?.userFirstName = user[UdacityClient.JSONResponseKeys.FirstName] as? String
-                                self.appDelegate?.userLastName  = user[UdacityClient.JSONResponseKeys.LastName] as? String
-
-                                // create navigationController and attach MapTableViewController with result attached as map pins
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    loginVC.presentMapViewController()
-                                })
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
+        guard let username = usernameField.text, password = passwordField.text
+            where usernameField.text != "" && passwordField.text != ""
+        else {
             // pop-up notification that username / password is missing
             var message = "Missing:\n "
 
@@ -97,72 +57,122 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             self.presentViewController(alertVC, animated: true, completion: nil)
             return
         }
+
+        // Does all this work need to happen here?
+
+        UdacityClient.sharedInstance.loginWith(username, password: password) { (success, results, errorString) in
+
+            if errorString != "" || !success {
+                let alertVC = UIAlertController(title: "Error", message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
+                let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                alertVC.addAction(cancelAction)
+                self.presentViewController(alertVC, animated: true, completion: nil)
+                return
+            }
+
+            guard let account = results[UdacityClient.JSONResponseKeys.Account] as? [String: AnyObject] else {
+                print("Result did not contain field \(UdacityClient.JSONResponseKeys.Account)")
+                return
+            }
+
+            guard let userId = account[UdacityClient.JSONResponseKeys.Key] as? String else {
+                print("Account did not contain field \(UdacityClient.JSONResponseKeys.Key)")
+                return
+            }
+
+            self.appDelegate?.userID = userId
+
+            self.getUserData(userId) { finished in
+                if finished {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        loginVC.presentMapViewController()
+                    })
+                }
+            }
+        }
     }
 
-
-    //TODO : For the love of god refactor with guard statements
+    // Repeating a lot of the same login logic as above
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
 
         let loginVC = self
 
         if let error = error {
-            print("\(error)")
-        } else if result.isCancelled {
-            print("request cancelled")
-        } else {
-            if let accessToken = result.token {
-                let fbBody = [UdacityClient.Parameters.FacebookMobile: [UdacityClient.Parameters.FacebookAccessToken: accessToken.tokenString]]
-                UdacityClient.sharedInstance.loginWith(fbBody) { success, results, errorString in
-                    if errorString != "" {
-                        let alertVC = UIAlertController(title: "Error", message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
-                        let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
-                        alertVC.addAction(cancelAction)
-                        self.presentViewController(alertVC, animated: true, completion: nil)
-                        return
-                    } else {
-                        if success {
-                            if let account = results[UdacityClient.JSONResponseKeys.Account] as? [String: AnyObject] {
+            print("Error logging in : \(error)")
+            return
+        }
 
-                                if let userId = account[UdacityClient.JSONResponseKeys.Key] as? String {
-                                    self.appDelegate?.userID = userId
-                                    UdacityClient.sharedInstance.getUserData(userId) { success, results, errorString in
-                                        guard success else {
-                                            print(errorString)
-                                            return
-                                        }
-                                        guard let user = results[UdacityClient.JSONResponseKeys.User] as? [String : AnyObject] else {
-                                            print("Error: Request did not return user information")
-                                            return
-                                        }
-                                        self.appDelegate?.userFirstName = user[UdacityClient.JSONResponseKeys.FirstName] as? String
-                                        self.appDelegate?.userLastName  = user[UdacityClient.JSONResponseKeys.LastName] as? String
+        guard result.isCancelled else {
+            print("Error logging in: request is cancelled")
+            return
+        }
 
-                                        dispatch_async(dispatch_get_main_queue(), {
-                                            loginVC.presentMapViewController()
-                                        })
-                                    }
-                                } else { print("could not find userId in results")}
-                            } else {print ("could not find account key in results") }
-                        } else { print("login unsuccessful")}
-                    }
+        guard let accessToken = result.token else {
+            print("Result does not contain an access token")
+            return
+        }
+
+        let fbBody = [UdacityClient.Parameters.FacebookMobile: [UdacityClient.Parameters.FacebookAccessToken: accessToken.tokenString]]
+
+        UdacityClient.sharedInstance.loginWith(fbBody) { success, results, errorString in
+
+            if errorString != "" || !success {
+                let alertVC = UIAlertController(title: "Error", message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
+                let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                alertVC.addAction(cancelAction)
+                self.presentViewController(alertVC, animated: true, completion: nil)
+                return
+            }
+
+            guard let account = results[UdacityClient.JSONResponseKeys.Account] as? [String: AnyObject] else {
+                print("Result did not contain field \(UdacityClient.JSONResponseKeys.Account)")
+                return
+            }
+
+            guard let userId = account[UdacityClient.JSONResponseKeys.Key] as? String else {
+                print("Account did not contain field \(UdacityClient.JSONResponseKeys.Key)")
+                return
+            }
+
+            self.appDelegate?.userID = userId
+
+            self.getUserData(userId) { finished in
+                if finished {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        loginVC.presentMapViewController()
+                    })
                 }
             }
         }
     }
 
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-        // Handled in logout button below
+        // Handled by the logout button below
         print("user logged out")
     }
 
     func logout(sender: UIBarButtonItem) {
 
         // if facebook login -> logout of facebook session
-        let loginManager = FBSDKLoginManager()
-        loginManager.logOut()
+        if let _ = FBSDKAccessToken.currentAccessToken() {
+            let loginManager = FBSDKLoginManager()
+            loginManager.logOut()
+        }
 
         // TODO : if udacity login -> logout of udacity
-        self.dismissViewControllerAnimated(true, completion: nil)
+        UdacityClient.sharedInstance.deleteUdacitySession { success, errorString in
+
+            guard errorString != "" else {
+                print("Error logging out of udacity: \(errorString)")
+                return
+            }
+
+            if success {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+        }
+
+
     }
 
     func presentMapViewController() {
@@ -178,6 +188,29 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         self.presentViewController(managerNavigationController, animated: true, completion: nil)
     }
 
+    func getUserData(userId: String, completionHandler: (Bool-> Void)) {
+        UdacityClient.sharedInstance.getUserData(userId) { success, results, errorString in
+
+            guard errorString != "" || success else {
+                print("Could not get user data : \(errorString)")
+                return
+            }
+
+            guard let user = results[UdacityClient.JSONResponseKeys.User] as? [String : AnyObject] else {
+                print("Error: Request did not return user information")
+                return
+            }
+
+            if let firstName = user[UdacityClient.JSONResponseKeys.FirstName] as? String,
+                lastName = user[UdacityClient.JSONResponseKeys.LastName] as? String {
+                    self.appDelegate?.userFirstName = firstName
+                    self.appDelegate?.userLastName  = lastName
+
+                    completionHandler(true)
+            }
+        }
+    }
+
     // Question? : You have both segue transitions and just manual pushing, do you need both?
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SignUpForUdacity" {
@@ -187,7 +220,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
     }
 
-    // TODO : Is this necessary
     func dismissController(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion:nil)
     }

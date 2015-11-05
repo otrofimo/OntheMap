@@ -18,7 +18,7 @@ extension ParseClient {
             } else {
                 if let results = JSONResult[ParseClient.JSONResponseKeys.StudentLocationResults] as? [[String : AnyObject]] {
 
-                    let locations = StudentLocation.StudentLocationsfromResults(results)
+                    let locations = StudentLocation.studentLocationsfromResults(results)
                     completionHandler(result: locations, error: nil)
                 } else {
                     completionHandler(result: nil, error: NSError(domain: "getMoviesForSearchString parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getMoviesForSearchString"]))
