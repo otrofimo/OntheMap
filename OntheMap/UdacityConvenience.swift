@@ -72,8 +72,8 @@ extension UdacityClient {
                 return
             }
 
-            if let account = JSONResults[UdacityClient.JSONResponseKeys.Account] as? [String : AnyObject] {
-                if account[UdacityClient.JSONResponseKeys.Registered] as? Bool == true {
+            if let session = JSONResults[UdacityClient.JSONResponseKeys.Session] as? [String : AnyObject] {
+                if (session[UdacityClient.JSONResponseKeys.Expiration] as? String != nil) {
                     completionHandler(success: true, errorString: "")
                 } else {
                     completionHandler(success: false, errorString: "Udacity was not able to process your request")
@@ -81,7 +81,6 @@ extension UdacityClient {
             } else {
                 completionHandler(success: false, errorString: "Error parsing login response json")
             }
-
         }
     }
 

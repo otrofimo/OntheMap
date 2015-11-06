@@ -23,9 +23,6 @@ class ParseClient : NSObject {
         super.init()
     }
 
-
-    // TODO : think of a way to refactor the get and post methods. They have a lot of code repetition. Also very similar to UdacityClient
-
     // MARK: GET
     func taskForGETMethod(method:String, parameters: [String:AnyObject], completionHandler: (result: AnyObject!, error:NSError?) -> Void) -> NSURLSessionDataTask {
 

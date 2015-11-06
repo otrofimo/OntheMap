@@ -19,7 +19,6 @@ class MapViewController: UIViewController, MKMapViewDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        mapView.delegate = self
     }
 
     override func viewDidAppear(animated:Bool) {
@@ -39,7 +38,6 @@ class MapViewController: UIViewController, MKMapViewDelegate{
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -64,8 +62,10 @@ class MapViewController: UIViewController, MKMapViewDelegate{
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
 
         if let annotationView = view.annotation {
-            if let mediaURLString = annotationView.subtitle {
-                let url = NSURL(string: mediaURLString!)
+
+            // Is there a better way to convert String?? to String
+            if let mediaURLString = (annotationView.subtitle?.flatMap{$0}) {
+                let url = NSURL(string: mediaURLString)
                 UIApplication.sharedApplication().openURL(url!)
             }
         }

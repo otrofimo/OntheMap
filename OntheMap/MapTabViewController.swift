@@ -20,7 +20,6 @@ class MapTabViewController: UITabBarController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @IBAction func mapPinButtonTapped(sender: UIBarButtonItem) {

@@ -24,9 +24,6 @@ class UdacityClient : NSObject {
 
     // MARK: GET
 
-    // TODO: Refactor this to a more generic method. Right now is exactly the same as ParseClient
-    // Maybe create a function and then curry for both clients? create a protocol that both can implement?
-
     func taskForGETMethod(method:String, parameters: [String:AnyObject], completionHandler: (result: AnyObject!, error:NSError?) -> Void) -> NSURLSessionDataTask {
         let urlString = UdacityClient.Constants.BaseURLString + UdacityClient.Methods.API + method + UdacityClient.escapedParameters(parameters)
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
@@ -56,8 +53,6 @@ class UdacityClient : NSObject {
                 print("No data was returned by the request!")
                 return
             }
-
-
 
             UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
         }
@@ -120,7 +115,15 @@ class UdacityClient : NSObject {
     // MARK: DELETE
 
     func taskForDeleteMethod(method: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void)-> NSURLSessionDataTask {
-        let request = NSMutableURLRequest(URL: NSURL(string: UdacityClient.Constants.BaseURLString + UdacityClient.Methods.API)!)
+
+        let urlString = UdacityClient.Constants.BaseURLString + UdacityClient.Methods.API + method
+
+        guard let url = NSURL(string: urlString) else {
+            print("Could not create url from string")
+            return NSURLSessionDataTask()
+        }
+
+        let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "DELETE"
 
         var xsrfCookie: NSHTTPCookie? = nil
@@ -154,8 +157,6 @@ class UdacityClient : NSObject {
     }
 
     // MARK: Helpers
-
-    // TODO: these are the same helpers as for ParseClient. Refactor out to a helper class that is imported.
 
     /* Helper: Given raw JSON, return Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {

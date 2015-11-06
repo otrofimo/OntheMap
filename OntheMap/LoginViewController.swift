@@ -38,7 +38,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     }
 
 
-    // TODO : For the love of god refactor with guard statements
     @IBAction func login(sender: AnyObject) {
         let loginVC = self
 
@@ -57,8 +56,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             self.presentViewController(alertVC, animated: true, completion: nil)
             return
         }
-
-        // Does all this work need to happen here?
 
         UdacityClient.sharedInstance.loginWith(username, password: password) { (success, results, errorString) in
 
@@ -92,7 +89,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
     }
 
-    // Repeating a lot of the same login logic as above
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
 
         let loginVC = self
@@ -102,7 +98,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             return
         }
 
-        guard result.isCancelled else {
+        if result.isCancelled {
             print("Error logging in: request is cancelled")
             return
         }
@@ -157,22 +153,17 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         if let _ = FBSDKAccessToken.currentAccessToken() {
             let loginManager = FBSDKLoginManager()
             loginManager.logOut()
-        }
-
-        // TODO : if udacity login -> logout of udacity
-        UdacityClient.sharedInstance.deleteUdacitySession { success, errorString in
-
-            guard errorString != "" else {
-                print("Error logging out of udacity: \(errorString)")
-                return
-            }
-
-            if success {
-                self.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            // if udacity login -> logout of udacity
+            UdacityClient.sharedInstance.deleteUdacitySession { success, errorString in
+                guard errorString == "" else {
+                    print("Error logging out of udacity: \(errorString)")
+                    return
+                }
             }
         }
 
-
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
     func presentMapViewController() {
@@ -211,7 +202,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
     }
 
-    // Question? : You have both segue transitions and just manual pushing, do you need both?
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SignUpForUdacity" {
             let navVC = segue.destinationViewController as! UINavigationController

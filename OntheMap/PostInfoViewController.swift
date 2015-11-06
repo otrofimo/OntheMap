@@ -24,6 +24,10 @@ class PostInfoViewController: UIViewController, MKMapViewDelegate, UITextViewDel
 
     let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
     @IBAction func findOnMap(sender: UIButton) {
 
         let geocoder:CLGeocoder = CLGeocoder()
@@ -105,6 +109,7 @@ class PostInfoViewController: UIViewController, MKMapViewDelegate, UITextViewDel
         }
 
         // When the app simply loads without going through login, appDelegate is recreated? so need to make call to getUserData
+
         if let  userFirstName = self.appDelegate?.userFirstName,
                 userLastName = self.appDelegate?.userLastName,
                 userId = self.appDelegate?.userID as String?,
