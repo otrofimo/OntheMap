@@ -31,8 +31,9 @@ class UdacityClient : NSObject {
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
 
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                print("There was an error with your request: \(error)")
+            if let error = error {
+                print("There was an error with your request: \(error.localizedDescription)")
+                completionHandler(result: nil, error: error)
                 return
             }
 
@@ -40,8 +41,10 @@ class UdacityClient : NSObject {
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
                 if let response = response as? NSHTTPURLResponse {
                     print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+                    completionHandler(result: response.statusCode, error: error)
                 } else if let response = response {
                     print("Your request returned an invalid response! Response: \(response)!")
+                    completionHandler(result: nil, error: error)
                 } else {
                     print("Your request returned an invalid response!")
                 }
@@ -81,8 +84,9 @@ class UdacityClient : NSObject {
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
 
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                print("There was an error with your request: \(error)")
+            if let error = error {
+                print("There was an error with your request: \(error.localizedDescription)")
+                completionHandler(result: nil, error: error)
                 return
             }
 
@@ -90,8 +94,19 @@ class UdacityClient : NSObject {
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
                 if let response = response as? NSHTTPURLResponse {
                     print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+
+                    let userInfo : [NSObject : AnyObject] = [
+                        NSLocalizedDescriptionKey :  NSLocalizedString("Request Failed", value: "Please make sure you entered the correct credentials for this request", comment: "")
+                    ]
+                    completionHandler(result: [:], error: NSError(domain: "FailedLogin", code: 403, userInfo: userInfo))
+
                 } else if let response = response {
+                    let userInfo : [NSObject : AnyObject] = [
+                        NSLocalizedDescriptionKey :  NSLocalizedString("Request Failed", value: "Could not get response from Udacity please try again", comment: "")
+                    ]
+
                     print("Your request returned an invalid response! Response: \(response)!")
+                    completionHandler(result: [:], error: NSError(domain: "FailedLogin", code: 404, userInfo: userInfo))
                 } else {
                     print("Your request returned an invalid response!")
                 }
@@ -138,9 +153,9 @@ class UdacityClient : NSObject {
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                print("There was an error with your request: \(error)")
-                return
+            if let error = error {
+                print("There was an error with your request: \(error.localizedDescription)")
+                completionHandler(result: nil, error: error)
             }
 
             /* GUARD: Was there any data returned? */

@@ -63,7 +63,10 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 let alertVC = UIAlertController(title: "Error", message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
                 let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
                 alertVC.addAction(cancelAction)
-                self.presentViewController(alertVC, animated: true, completion: nil)
+
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.presentViewController(alertVC, animated: true, completion: nil)
+                })
                 return
             }
 
@@ -79,11 +82,27 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
             self.appDelegate?.userID = userId
 
-            self.getUserData(userId) { finished in
-                if finished {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        loginVC.presentMapViewController()
-                    })
+            UdacityClient.sharedInstance.getUserData(userId) { success, results, errorString in
+
+                guard errorString != "" || success else {
+                    // AlertVC?
+                    print("Could not get user data : \(errorString)")
+                    return
+                }
+
+                guard let user = results[UdacityClient.JSONResponseKeys.User] as? [String : AnyObject] else {
+                    print("Error: Request did not return user information")
+                    return
+                }
+
+                if let firstName = user[UdacityClient.JSONResponseKeys.FirstName] as? String,
+                    lastName = user[UdacityClient.JSONResponseKeys.LastName] as? String {
+                        self.appDelegate?.userFirstName = firstName
+                        self.appDelegate?.userLastName  = lastName
+
+                        dispatch_async(dispatch_get_main_queue(), {
+                            loginVC.presentMapViewController()
+                        })
                 }
             }
         }
@@ -94,7 +113,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         let loginVC = self
 
         if let error = error {
-            print("Error logging in : \(error)")
+            print("Error logging in : \(error.localizedDescription)")
             return
         }
 
@@ -113,7 +132,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         UdacityClient.sharedInstance.loginWith(fbBody) { success, results, errorString in
 
             if errorString != "" || !success {
-                let alertVC = UIAlertController(title: "Error", message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
+                let alertVC = UIAlertController(title: "Login Error", message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
                 let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
                 alertVC.addAction(cancelAction)
                 self.presentViewController(alertVC, animated: true, completion: nil)
@@ -132,11 +151,27 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
             self.appDelegate?.userID = userId
 
-            self.getUserData(userId) { finished in
-                if finished {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        loginVC.presentMapViewController()
-                    })
+            UdacityClient.sharedInstance.getUserData(userId) { success, results, errorString in
+
+                guard errorString != "" || success else {
+                    // AlertVC?
+                    print("Could not get user data : \(errorString)")
+                    return
+                }
+
+                guard let user = results[UdacityClient.JSONResponseKeys.User] as? [String : AnyObject] else {
+                    print("Error: Request did not return user information")
+                    return
+                }
+
+                if let firstName = user[UdacityClient.JSONResponseKeys.FirstName] as? String,
+                    lastName = user[UdacityClient.JSONResponseKeys.LastName] as? String {
+                        self.appDelegate?.userFirstName = firstName
+                        self.appDelegate?.userLastName  = lastName
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            loginVC.presentMapViewController()
+                        })
                 }
             }
         }
@@ -177,29 +212,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         managerNavigationController.setViewControllers([mapTabViewController], animated: true)
 
         self.presentViewController(managerNavigationController, animated: true, completion: nil)
-    }
-
-    func getUserData(userId: String, completionHandler: (Bool-> Void)) {
-        UdacityClient.sharedInstance.getUserData(userId) { success, results, errorString in
-
-            guard errorString != "" || success else {
-                print("Could not get user data : \(errorString)")
-                return
-            }
-
-            guard let user = results[UdacityClient.JSONResponseKeys.User] as? [String : AnyObject] else {
-                print("Error: Request did not return user information")
-                return
-            }
-
-            if let firstName = user[UdacityClient.JSONResponseKeys.FirstName] as? String,
-                lastName = user[UdacityClient.JSONResponseKeys.LastName] as? String {
-                    self.appDelegate?.userFirstName = firstName
-                    self.appDelegate?.userLastName  = lastName
-
-                    completionHandler(true)
-            }
-        }
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

@@ -19,14 +19,13 @@ class MapViewController: UIViewController, MKMapViewDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
     }
 
     override func viewDidAppear(animated:Bool) {
         super.viewDidAppear(animated)
 
-        guard
-            let sourceLocations = self.appDelegate.locations
-        else {
+        guard let sourceLocations = self.appDelegate.locations else {
             print("Locations not loaded")
             return
         }
@@ -94,7 +93,7 @@ class MapViewController: UIViewController, MKMapViewDelegate{
 
             annotations.append(annotation)
         }
-        
+
         self.mapView.addAnnotations(annotations)
     }
 }

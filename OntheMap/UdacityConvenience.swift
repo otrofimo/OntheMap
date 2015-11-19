@@ -20,11 +20,11 @@ extension UdacityClient {
 
         taskForPOSTMethod(UdacityClient.Methods.Session, jsonBody: authBody) { (JSONResults, error) in
             if let error = error {
-                completionHandler(success: false, results: [:], errorString: "\(error)")
+                completionHandler(success: false, results: [:], errorString: "\(error.localizedDescription)")
             }
 
             guard let JSONResults = JSONResults as? [String: AnyObject] else {
-                completionHandler(success: false, results: [:], errorString: "\(error)")
+                completionHandler(success: false, results: [:], errorString: "\(error?.localizedDescription)")
                 return
             }
 
@@ -46,11 +46,11 @@ extension UdacityClient {
         taskForPOSTMethod(UdacityClient.Methods.Session, jsonBody: fbBody) { (JSONResults, error) in
 
             if let error = error {
-                completionHandler(success: false, results: [:], errorString: "\(error)")
+                completionHandler(success: false, results: [:], errorString: error.localizedDescription)
             }
 
             guard let JSONResults = JSONResults as? [String: AnyObject] else {
-                completionHandler(success: false, results: [:], errorString: "\(error)")
+                completionHandler(success: false, results: [:], errorString: "\(error?.localizedDescription)")
                 return
             }
 
@@ -64,11 +64,11 @@ extension UdacityClient {
     func deleteUdacitySession(completionHandler: (success: Bool, errorString: String) -> Void) {
         taskForDeleteMethod(UdacityClient.Methods.Session) { (JSONResults, error) -> Void in
             if let error = error {
-                completionHandler(success: false, errorString: "\(error)")
+                completionHandler(success: false, errorString: "\(error.localizedDescription)")
             }
 
             guard let _ = JSONResults else {
-                completionHandler(success: false, errorString: "\(error)")
+                completionHandler(success: false, errorString: "\(error?.localizedDescription)")
                 return
             }
 
@@ -93,7 +93,7 @@ extension UdacityClient {
 
         taskForGETMethod(method, parameters: [:]) { (results, error) -> Void in
             if let error = error, _ = results {
-                completionHandler(success: false, result: [:], errorString: "\(error)")
+                completionHandler(success: false, result: [:], errorString: "\(error.localizedDescription)")
             }
 
             if let JSONresults = results as? [String : AnyObject] {

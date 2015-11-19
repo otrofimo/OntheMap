@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class PostInfoViewController: UIViewController, MKMapViewDelegate, UITextViewDelegate {
+class PostInfoViewController: UIViewController, MKMapViewDelegate, UITextViewDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var promptView: UIView!
     @IBOutlet weak var buttonView: UIView!
@@ -18,6 +18,9 @@ class PostInfoViewController: UIViewController, MKMapViewDelegate, UITextViewDel
 
     @IBOutlet weak var mapView: MKMapView!
 
+    @IBOutlet weak var activityView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
     @IBOutlet weak var promptLabel: UILabel!
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var pinTextView: UITextView!
@@ -25,10 +28,16 @@ class PostInfoViewController: UIViewController, MKMapViewDelegate, UITextViewDel
     let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
 
     override func viewDidLoad() {
+        locationTextField.delegate = self
         super.viewDidLoad()
     }
 
     @IBAction func findOnMap(sender: UIButton) {
+
+        dispatch_async(dispatch_get_main_queue(), {
+            self.activityView.hidden = false
+            self.activityIndicator.startAnimating()
+        })
 
         let geocoder:CLGeocoder = CLGeocoder()
 
@@ -38,23 +47,40 @@ class PostInfoViewController: UIViewController, MKMapViewDelegate, UITextViewDel
             let alertVC = UIAlertController(title: "Error", message: "please enter location in location text field", preferredStyle: UIAlertControllerStyle.Alert)
             let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
             alertVC.addAction(cancelAction)
-            self.presentViewController(alertVC, animated: true, completion: nil)
+
+            dispatch_async(dispatch_get_main_queue(), {
+                self.activityIndicator.stopAnimating()
+                self.activityView.hidden = true
+                self.presentViewController(alertVC, animated: true, completion: nil)
+            })
             return
         }
 
         geocoder.geocodeAddressString(location) { (placemarks, error) in
 
-            if let error = error {
-                print("Error", error)
+            if let _ = error {
+                let alertVC = UIAlertController(title: "Error Finding Location", message: "Please check that the location is correct", preferredStyle: UIAlertControllerStyle.Alert)
+                let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                alertVC.addAction(cancelAction)
+
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.activityIndicator.stopAnimating()
+                    self.activityView.hidden = true
+                    self.presentViewController(alertVC, animated: true, completion: nil)
+                })
+
+                return
             }
 
-            self.locationTextView.hidden = true
-            self.buttonView.hidden = true
-            self.promptLabel.hidden = true
+            dispatch_async(dispatch_get_main_queue(), {
+                self.locationTextView.hidden = true
+                self.buttonView.hidden = true
+                self.promptLabel.hidden = true
 
-            self.promptView.backgroundColor = self.locationTextView.backgroundColor
-            self.pinTextView.hidden  = false
-            self.submitButton.hidden = false
+                self.promptView.backgroundColor = self.locationTextView.backgroundColor
+                self.pinTextView.hidden  = false
+                self.submitButton.hidden = false
+            })
 
             if let placemark = placemarks?.first {
 
@@ -72,6 +98,11 @@ class PostInfoViewController: UIViewController, MKMapViewDelegate, UITextViewDel
                 self.mapView?.addAnnotation(pointAnnotation)
                 self.mapView?.selectAnnotation(pointAnnotation, animated: true)
                 print("Added annotation to map view")
+
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.activityIndicator.stopAnimating()
+                    self.activityView.hidden = true
+                })
             }
         }
     }
@@ -90,6 +121,21 @@ class PostInfoViewController: UIViewController, MKMapViewDelegate, UITextViewDel
 
     func textViewDidBeginEditing(textView: UITextView) {
         textView.text = ""
+    }
+
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+
+        return true
+    }
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 
     @IBAction func submitLocationButtonTapped(sender: UIButton) {
@@ -127,13 +173,31 @@ class PostInfoViewController: UIViewController, MKMapViewDelegate, UITextViewDel
 
             var studentLocation = StudentLocation(dictionary: studentInfo)
 
+            dispatch_async(dispatch_get_main_queue(), {
+                self.activityView.hidden = false
+                self.activityIndicator.startAnimating()
+            })
+
             ParseClient.sharedInstance.postStudentLocation(&studentLocation) { success, error in
+
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.activityIndicator.stopAnimating()
+                    self.activityView.hidden = true
+                })
+
                 if success == true {
                     self.appDelegate?.locations?.append(studentLocation)
                     self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
                 } else {
-                    print("\(error)")
-                    return
+                    let alertVC = UIAlertController(title: "Error Submitting Location", message: error?.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                    let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                    alertVC.addAction(cancelAction)
+
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.activityIndicator.stopAnimating()
+                        self.activityView.hidden = true
+                        self.presentViewController(alertVC, animated: true, completion: nil)
+                    })
                 }
             }
         } else {

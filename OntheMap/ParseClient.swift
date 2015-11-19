@@ -34,15 +34,26 @@ class ParseClient : NSObject {
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
 
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                print("There was an error with your request: \(error)")
-                return
+            if let error = error {
+                print("There was an error with your request: \(error.localizedDescription)")
+                let userInfo : [NSObject : AnyObject] = [
+                    NSLocalizedDescriptionKey :  NSLocalizedString("Request Failed", value: error.localizedDescription, comment: "")
+                ]
+                let error = NSError(domain: "FailedRequest", code: 400 , userInfo: userInfo)
+                completionHandler(result: nil, error: error)
             }
 
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
                 if let response = response as? NSHTTPURLResponse {
                     print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+
+                    let userInfo : [NSObject : AnyObject] = [
+                        NSLocalizedDescriptionKey :  NSLocalizedString("Login Failed", value: "Please make sure you entered the correct credentials", comment: "")
+                    ]
+                    let error = NSError(domain: "FailedRequest", code: response.statusCode, userInfo: userInfo)
+                    completionHandler(result: nil, error: error)
+
                 } else if let response = response {
                     print("Your request returned an invalid response! Response: \(response)!")
                 } else {
@@ -84,9 +95,14 @@ class ParseClient : NSObject {
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
 
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                print("There was an error with your request: \(error)")
-                return
+            if let error = error{
+                print("There was an error with your request: \(error.localizedDescription)")
+                let userInfo : [NSObject : AnyObject] = [
+                    NSLocalizedDescriptionKey :  NSLocalizedString("Request Failed", value: error.localizedDescription, comment: "")
+                ]
+                
+                let error = NSError(domain: "Failed Request", code: 400 , userInfo: userInfo)
+                completionHandler(result: nil, error: error)
             }
 
             /* GUARD: Did we get a successful 2XX response? */
